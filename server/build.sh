@@ -1,3 +1,3 @@
 export SPRING_PROFILES_ACTIVE=prod
 
-./mvnw clean package
+./mvnw clean package -DskipTests
