@@ -1,0 +1,10 @@
+.courseCard {
+	background-color: light-dark(var(--mantine-color-white), var(--mantine-color-dark-7));
+	cursor: pointer;
+
+	box-shadow: var(--mantine-shadow-sm);
+
+	&:hover {
+		background-color: light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-8));
+	}
+}

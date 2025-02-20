@@ -1,0 +1,12 @@
+spring.datasource.url=
+spring.datasource.username=
+spring.datasource.password=
+
+classtask.webhook.url=
+classtask.email.address=
+classtask.app.url=
+classtask.app.icon=
+
+resend.api.key=
+
+classtask.jwt.secret=
