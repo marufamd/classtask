@@ -58,11 +58,13 @@ export default function TaskDisplay() {
 		return (Object.entries(columnData) as [keyof Task, string][]).map(([k, v]) => {
 			const renderSelectOption: SelectProps['renderOption'] = ({ option, checked }) => {
 				const course = courses?.find((c) => c.id === option?.value);
-				return <Group flex="1" gap="xs">
-					<Badge color={course?.color ?? 'var(--classtask-color)'} size="sm" circle />
-					{option.label}
-					{checked && <IconCheck style={{ marginInlineStart: 'auto' }} stroke={1.5} color="currentColor" opacity={0.6} size={18} />}
-				</Group>;
+				return (
+					<Group flex="1" gap="xs">
+						<Badge color={course?.color ?? 'var(--classtask-color)'} size="sm" circle />
+						{option.label}
+						{checked && <IconCheck style={{ marginInlineStart: 'auto' }} stroke={1.5} color="currentColor" opacity={0.6} size={18} />}
+					</Group>
+				);
 			};
 
 			if (k === 'completed') {

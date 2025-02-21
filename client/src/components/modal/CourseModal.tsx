@@ -70,7 +70,7 @@ export default function CourseModal({ opened, close, courseId }: { opened: boole
 			notifications.show({
 				title: 'Error',
 				message: e?.message ?? 'An unknown error occurred',
-                color: 'red'
+				color: 'red'
 			});
 
 			console.error(e);

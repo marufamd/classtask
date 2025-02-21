@@ -90,7 +90,7 @@ export default function TaskModal({ opened, close, taskId }: { opened: boolean; 
 			notifications.show({
 				title: 'Error',
 				message: e?.message ?? 'An unknown error occurred',
-                color: 'red'
+				color: 'red'
 			});
 
 			console.error(e);

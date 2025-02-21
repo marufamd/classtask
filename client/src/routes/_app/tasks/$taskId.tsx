@@ -54,7 +54,7 @@ function RouteComponent() {
 					navigate({ to: '/tasks' });
 				}
 			});
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		} catch (e: any) {
 			notifications.show({
 				title: 'Error',

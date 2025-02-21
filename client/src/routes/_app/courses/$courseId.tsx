@@ -13,68 +13,70 @@ export const Route = createFileRoute('/_app/courses/$courseId')({
 });
 
 function RouteComponent() {
-    const { courseId } = Route.useParams();
-    const navigate = useNavigate();
+	const { courseId } = Route.useParams();
+	const navigate = useNavigate();
 
-    const [opened, { open, close }] = useDisclosure();
+	const [opened, { open, close }] = useDisclosure();
 
-    const { data: course, isLoading: courseLoading, error: courseError } = useQueryCourse(courseId);
-    const { mutateAsync: deleteCourse } = useDeleteCourse(courseId);
+	const { data: course, isLoading: courseLoading, error: courseError } = useQueryCourse(courseId);
+	const { mutateAsync: deleteCourse } = useDeleteCourse(courseId);
 
-    useEffect(() => {
-        if (!courseLoading && !course) {
-            navigate({ to: '/tasks' });
-        }
-    }, [courseLoading, course]);
+	useEffect(() => {
+		if (!courseLoading && !course) {
+			navigate({ to: '/tasks' });
+		}
+	}, [courseLoading, course]);
 
-    useEffect(() => {
-        if (courseError) {
-            console.error(courseError);
-            navigate({ to: '/error', search: { message: courseError?.message } });
-        }
-    }, [courseError]);
+	useEffect(() => {
+		if (courseError) {
+			console.error(courseError);
+			navigate({ to: '/error', search: { message: courseError?.message } });
+		}
+	}, [courseError]);
 
-    const handleDelete = async () => {
-        try {
-            await deleteCourse(null, {
-                onSuccess: () => {
-                    navigate({ to: '/tasks' });
-                }
-            });
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        } catch (e: any) {
-            notifications.show({
-                title: 'Error',
-                message: e?.message ?? 'An unknown error occurred',
-                color: 'red'
-            });
-        }
-    };
+	const handleDelete = async () => {
+		try {
+			await deleteCourse(null, {
+				onSuccess: () => {
+					navigate({ to: '/tasks' });
+				}
+			});
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		} catch (e: any) {
+			notifications.show({
+				title: 'Error',
+				message: e?.message ?? 'An unknown error occurred',
+				color: 'red'
+			});
+		}
+	};
 
 	return (
-        <>
-        <CourseModal opened={opened} close={close} courseId={courseId}/>
-		<Container size="md">
-			<Card shadow="sm" mt="md">
-				<Flex direction="column" gap={15}>
-					<Flex direction="row" justify="start" align="center">
-						<Flex direction="row" gap={15} align="center">
-							<Badge color={course?.color ?? 'var(--classtask-color)'} size="lg" circle />
-							<Title>{course?.name ?? course?.code}</Title>
+		<>
+			<CourseModal opened={opened} close={close} courseId={courseId} />
+			<Container size="md">
+				<Card shadow="sm" mt="md">
+					<Flex direction="column" gap={15}>
+						<Flex direction="row" justify="start" align="center">
+							<Flex direction="row" gap={15} align="center">
+								<Badge color={course?.color ?? 'var(--classtask-color)'} size="lg" circle />
+								<Title>{course?.name ?? course?.code}</Title>
+							</Flex>
+							<Flex direction="row" ml="auto" gap={10}>
+								<ActionIcon onClick={open} color="var(--classtask-color)" size="lg">
+									{<IconEdit />}
+								</ActionIcon>
+								<ActionIcon onClick={handleDelete} color="red" size="lg">
+									{<IconTrash />}
+								</ActionIcon>
+							</Flex>
 						</Flex>
-						<Flex direction="row" ml="auto" gap={10}>
-							<ActionIcon onClick={open} color="var(--classtask-color)" size="lg">
-								{<IconEdit />}
-							</ActionIcon>
-							<ActionIcon onClick={handleDelete} color="red" size="lg">
-								{<IconTrash />}
-							</ActionIcon>
-						</Flex>
+						<Text size="lg" fw="bold">
+							{course?.code}
+						</Text>
 					</Flex>
-					<Text size="lg" fw="bold">{course?.code}</Text>
-				</Flex>
-			</Card>
-		</Container>
-        </>
+				</Card>
+			</Container>
+		</>
 	);
 }
