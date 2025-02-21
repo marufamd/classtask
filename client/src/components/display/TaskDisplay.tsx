@@ -2,19 +2,18 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Anchor, Badge, Checkbox, Group, Paper, ScrollArea, Select, SelectProps, Table } from '@mantine/core';
 import { useDisclosure, useMediaQuery } from '@mantine/hooks';
-import { createColumnHelper, flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table';
-import dayjs from 'dayjs';
-import { useEffect, useMemo } from 'react';
-import { columnData, taskTypes } from '../../util/constants';
-import { Task, TaskType } from '../../util/interfaces';
-import { trim } from '../../util/util';
-import Display from './Display';
-import TaskModal from '../modal/TaskModal';
-import { useQueryTasks, useUpdateTask } from '../../hooks/tasks';
-import { useQueryCourses } from '../../hooks/courses';
-import { Link, useNavigate } from '@tanstack/react-router';
 import { notifications } from '@mantine/notifications';
 import { IconCheck } from '@tabler/icons-react';
+import { Link, useNavigate } from '@tanstack/react-router';
+import { createColumnHelper, flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table';
+import { useEffect, useMemo } from 'react';
+import { useQueryCourses } from '../../hooks/courses';
+import { useQueryTasks, useUpdateTask } from '../../hooks/tasks';
+import { columnData, taskTypes } from '../../util/constants';
+import { Task, TaskType } from '../../util/interfaces';
+import { formatDate, trim } from '../../util/util';
+import TaskModal from '../modal/TaskModal';
+import Display from './Display';
 
 const colHelper = createColumnHelper<Task>();
 
@@ -123,7 +122,7 @@ export default function TaskDisplay() {
 			if (k === 'date') {
 				return colHelper.accessor(k, {
 					header: () => v,
-					cell: (info) => dayjs(info.getValue()).format('MMM D, YYYY h:mm A')
+					cell: (info) => formatDate(info.getValue())
 				});
 			}
 
@@ -191,7 +190,7 @@ export default function TaskDisplay() {
 							</Table.Thead>
 							<Table.Tbody>
 								{table.getRowModel().rows.map((row) => (
-									<Table.Tr key={row.id} style={{ borderLeft: `3px solid ${row.getValue('color')}` }}>
+									<Table.Tr key={row.id} style={{ borderLeft: `3px solid ${row.getValue('color') ?? courses?.find(c => c.id === row.getValue('courseId'))?.color ?? 'var(--classtask-color)'}` }}>
 										{row.getVisibleCells().map((cell) => (
 											<Table.Td key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</Table.Td>
 										))}

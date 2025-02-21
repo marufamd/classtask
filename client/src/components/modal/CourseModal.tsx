@@ -7,8 +7,8 @@ import { Box, Button, ColorInput, Flex, LoadingOverlay, Modal, TextInput } from 
 import { notifications } from '@mantine/notifications';
 
 const courseFormSchema = z.object({
-	name: z.string().min(1, 'Name is required'),
-	code: z.string().min(1, 'Code is required'),
+	name: z.string().min(1, 'Name is required').max(255, 'Name can only be 255 characters'),
+	code: z.string().min(1, 'Code is required').max(32, 'Code can only be 32 characters'),
 	color: z
 		.string()
 		.regex(/^#[0-9A-F]{6}$/i, 'Color must be a valid hex code')
@@ -91,6 +91,7 @@ export default function CourseModal({ opened, close, courseId }: { opened: boole
 						{...courseForm.getInputProps('name')}
 					/>
 					<TextInput
+						mt={10}
 						withAsterisk
 						label="Code"
 						placeholder="Enter code"

@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Badge, Box, Button, ColorInput, Flex, LoadingOverlay, Modal, Select, Textarea, TextInput } from '@mantine/core';
+import { Badge, Box, Button, ColorInput, Flex, Group, LoadingOverlay, Modal, Select, SelectProps, Textarea, TextInput } from '@mantine/core';
 import { useCreateTask, useQueryTask, useUpdateTask } from '../../hooks/tasks';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from '@tanstack/react-router';
 import { DateTimePicker } from '@mantine/dates';
 import { z } from 'zod';
@@ -10,11 +10,12 @@ import { useForm, zodResolver } from '@mantine/form';
 import { useQueryCourses } from '../../hooks/courses';
 import { TaskType } from '../../util/interfaces';
 import { notifications } from '@mantine/notifications';
+import { IconCheck } from '@tabler/icons-react';
 
 const taskFormSchema = z.object({
-	name: z.string().min(1, 'Name is required'),
-	description: z.string().min(1, 'Details are required'),
-	date: z.date(),
+	name: z.string().min(1, 'Name is required').max(255, 'Name can only be 255 characters'),
+	description: z.string().max(1000, 'Name can only be 1000 characters'),
+	date: z.date().optional(),
 	courseId: z.string(),
 	type: z.string(),
 	color: z
@@ -59,6 +60,16 @@ export default function TaskModal({ opened, close, taskId }: { opened: boolean; 
 		enhanceGetInputProps: () => ({ disabled: taskLoading || courseLoading || loadingCreate || loadingUpdate })
 	});
 
+	const [courseId, setCourseId] = useState(taskData?.courseId);
+	const [courseColor, setCourseColor] = useState(courses?.find(c => c.id === courseId)?.color);
+
+	taskForm.watch('courseId', ({ value }) => {
+		console.log(value);
+		setCourseId(value);
+		const course = courses?.find(c => c.id === value);
+		setCourseColor(course?.color);
+	});
+
 	const saveHandler = async (values: typeof taskForm.values) => {
 		const payload = {
 			...values,
@@ -76,8 +87,6 @@ export default function TaskModal({ opened, close, taskId }: { opened: boolean; 
 		};
 
 		try {
-			console.log(values);
-
 			if (taskId) {
 				await updateTask({ taskId, ...payload }, options);
 			} else {
@@ -96,6 +105,17 @@ export default function TaskModal({ opened, close, taskId }: { opened: boolean; 
 
 			console.error(e);
 		}
+	};
+
+	const renderSelectOption: SelectProps['renderOption'] = ({ option, checked }) => {
+		const course = courses?.find((c) => c.id === option?.value);
+		return (
+			<Group flex="1" gap="xs">
+				<Badge color={course?.color ?? 'var(--classtask-color)'} size="sm" circle />
+				{option.label}
+				{checked && <IconCheck style={{ marginInlineStart: 'auto' }} stroke={1.5} color="currentColor" opacity={0.6} size={18} />}
+			</Group>
+		);
 	};
 
 	return (
@@ -130,14 +150,15 @@ export default function TaskModal({ opened, close, taskId }: { opened: boolean; 
 						label="Course"
 						leftSection={
 							<Badge
-								color={courses?.find((c) => c.id === taskForm.getValues().courseId)?.color ?? 'var(--classtask-color)'}
+								color={courseColor ?? 'var(--classtask-color)'}
 								size="sm"
 							/>
 						}
 						placeholder="Select course"
 						data={courses?.map((c) => ({ value: c.id, label: c.code })) ?? []}
-						key={taskForm.key('course')}
-						{...taskForm.getInputProps('course')}
+						renderOption={renderSelectOption}
+						key={taskForm.key('courseId')}
+						{...taskForm.getInputProps('courseId')}
 					/>
 					<Select
 						mt={10}
