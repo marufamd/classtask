@@ -23,7 +23,7 @@ export default function BottomBar({ tabs, path }: { tabs: Tab[]; path: string })
 				justifyContent: 'space-around',
 				backgroundColor: 'light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-6))',
 				zIndex: 999,
-				paddingBottom: isPWA ? 10 : 0
+				paddingBottom: isPWA ? '20px' : 0
 			}}
 		>
 			{tabs.map((tab, index) => (
@@ -48,7 +48,7 @@ export default function BottomBar({ tabs, path }: { tabs: Tab[]; path: string })
 							style={{
 								width: '1px',
 								backgroundColor: 'light-dark(var(--mantine-color-gray-2), var(--mantine-color-dark-4))',
-								height: '70px',
+								height: isPWA ? '90px' : '70px',
 								alignSelf: 'center'
 							}}
 						/>
