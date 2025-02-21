@@ -5,7 +5,7 @@ import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import classes from './CourseDisplay.module.css';
 import { useQueryCourses } from '../../hooks/courses';
 import { useEffect } from 'react';
-import { Link, useNavigate } from '@tanstack/react-router';
+import { useNavigate } from '@tanstack/react-router';
 import CourseModal from '../modal/CourseModal';
 
 export default function CourseDisplay() {
@@ -31,21 +31,30 @@ export default function CourseDisplay() {
 				<SimpleGrid cols={isMobile ? 1 : 3} mt={15}>
 					{courses?.map((course) => {
 						return (
-							<Link to="/courses/$courseId" params={{ courseId: course.id }}>
-								<Card className={classes.courseCard}>
-									<Flex direction="row" gap={15} align="center">
-										<Badge color={course.color} size="lg" circle />
-										<Flex direction="column">
-											<Text fw="bold" size="lg">
-												{course.name}
-											</Text>
-											<Text c="dimmed" size="md">
-												{course.code}
-											</Text>
-										</Flex>
+							<Card
+								component="button"
+								className={classes.courseCard}
+								onClick={() =>
+									navigate({
+										to: '/courses/$courseId',
+										params: {
+											courseId: course.id
+										}
+									})
+								}
+							>
+								<Flex direction="row" gap={15} align="center">
+									<Badge color={course.color} size="lg" circle />
+									<Flex direction="column">
+										<Text fw="bold" size="lg">
+											{course.name}
+										</Text>
+										<Text c="dimmed" size="md">
+											{course.code}
+										</Text>
 									</Flex>
-								</Card>
-							</Link>
+								</Flex>
+							</Card>
 						);
 					})}
 				</SimpleGrid>
