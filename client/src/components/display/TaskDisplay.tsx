@@ -5,7 +5,7 @@ import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
 import { IconCheck } from '@tabler/icons-react';
 import { Link, useNavigate } from '@tanstack/react-router';
-import { createColumnHelper, flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table';
+import { createColumnHelper, flexRender, getCoreRowModel, getSortedRowModel, useReactTable } from '@tanstack/react-table';
 import { useEffect, useMemo } from 'react';
 import { useQueryCourses } from '../../hooks/courses';
 import { useQueryTasks, useUpdateTask } from '../../hooks/tasks';
@@ -122,7 +122,12 @@ export default function TaskDisplay() {
 			if (k === 'date') {
 				return colHelper.accessor(k, {
 					header: () => v,
-					cell: (info) => formatDate(info.getValue())
+					cell: (info) => formatDate(info.getValue()),
+					sortingFn: (rowA, rowB, columnId) => {
+						const dateA = rowA.getValue(columnId) ? new Date(rowA.getValue(columnId)).getTime() : 0;
+						const dateB = rowB.getValue(columnId) ? new Date(rowB.getValue(columnId)).getTime() : 0;
+						return dateA - dateB;
+					}
 				});
 			}
 
@@ -157,6 +162,7 @@ export default function TaskDisplay() {
 		data,
 		columns,
 		getCoreRowModel: getCoreRowModel(),
+		getSortedRowModel: getSortedRowModel(),
 		state: {
 			columnVisibility: {
 				color: false,
@@ -166,7 +172,13 @@ export default function TaskDisplay() {
 				lastModifiedTime: false,
 				description: !isMobile,
 				type: !isMobile
-			}
+			},
+			sorting: [
+				{
+					id: 'date',
+					desc: false
+				}
+			]
 		}
 	});
 
