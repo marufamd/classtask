@@ -10,9 +10,6 @@ export default defineConfig({
 		react(),
 		VitePWA({
 			registerType: 'autoUpdate',
-			devOptions: {
-				enabled: true
-			},
 			manifest: {
 				name: 'ClassTask',
 				short_name: 'ClassTask',
