@@ -17,13 +17,8 @@ export default defineConfig({
 				start_url: '/',
 				display: 'standalone',
 				background_color: '#5057FF',
-				theme_color: '#4095FF',
+				theme_color: '#5057ff;',
 				icons: [
-					{
-						src: '/apple-touch-icon-180x180.png',
-						sizes: '180x180',
-						type: 'image/png'
-					},
 					{
 						src: '/maskable-icon-512x512.png',
 						sizes: '512x512',
