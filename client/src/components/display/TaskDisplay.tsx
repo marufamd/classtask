@@ -190,7 +190,12 @@ export default function TaskDisplay() {
 							</Table.Thead>
 							<Table.Tbody>
 								{table.getRowModel().rows.map((row) => (
-									<Table.Tr key={row.id} style={{ borderLeft: `3px solid ${row.getValue('color') ?? courses?.find(c => c.id === row.getValue('courseId'))?.color ?? 'var(--classtask-color)'}` }}>
+									<Table.Tr
+										key={row.id}
+										style={{
+											borderLeft: `3px solid ${row.getValue('color') ?? courses?.find((c) => c.id === row.getValue('courseId'))?.color ?? 'var(--classtask-color)'}`
+										}}
+									>
 										{row.getVisibleCells().map((cell) => (
 											<Table.Td key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</Table.Td>
 										))}

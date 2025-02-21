@@ -1,5 +1,6 @@
-import { ActionIcon, Box, Card, Flex, LoadingOverlay, Title } from '@mantine/core';
+import { ActionIcon, Card, Flex, Title } from '@mantine/core';
 import { IconPlus } from '@tabler/icons-react';
+import Loading from '../Loading';
 
 export default function Display({
 	name,
@@ -13,9 +14,8 @@ export default function Display({
 	addFn?: React.MouseEventHandler<HTMLButtonElement>;
 }) {
 	return (
-		<Card shadow="sm" mt="md">
-			<Box pos="relative">
-				<LoadingOverlay visible={loading} zIndex={1000} overlayProps={{ radius: 'sm', blur: 2 }} />
+		<Loading loading={loading}>
+			<Card shadow="sm" mt="md">
 				<Flex direction="row" justify="start" align="center">
 					<Title>{name}</Title>
 					<ActionIcon onClick={addFn} ml="auto" color="var(--classtask-color)" size="lg">
@@ -23,7 +23,7 @@ export default function Display({
 					</ActionIcon>
 				</Flex>
 				{children}
-			</Box>
-		</Card>
+			</Card>
+		</Loading>
 	);
 }

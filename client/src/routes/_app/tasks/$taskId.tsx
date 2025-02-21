@@ -1,17 +1,18 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { ActionIcon, Badge, Box, Button, Card, Container, Flex, LoadingOverlay, Text, Title } from '@mantine/core';
-import { createFileRoute, useNavigate } from '@tanstack/react-router';
-import { useDeleteTask, useQueryTask } from '../../../hooks/tasks';
-import { useEffect } from 'react';
-import { IconEdit, IconTrash } from '@tabler/icons-react';
-import { TaskType } from '../../../util/interfaces';
-import PropertyField from '../../../components/PropertyField';
-import { taskTypes } from '../../../util/constants';
-import { formatDate } from '../../../util/util';
-import { useQueryCourse } from '../../../hooks/courses';
-import TaskModal from '../../../components/modal/TaskModal';
+import { ActionIcon, Badge, Button, Card, Container, Flex, Text, Title } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
+import { IconEdit, IconTrash } from '@tabler/icons-react';
+import { createFileRoute, useNavigate } from '@tanstack/react-router';
+import { useEffect } from 'react';
+import Loading from '../../../components/Loading';
+import TaskModal from '../../../components/modal/TaskModal';
+import PropertyField from '../../../components/PropertyField';
+import { useQueryCourse } from '../../../hooks/courses';
+import { useDeleteTask, useQueryTask } from '../../../hooks/tasks';
+import { taskTypes } from '../../../util/constants';
+import { TaskType } from '../../../util/interfaces';
+import { formatDate } from '../../../util/util';
 
 export const Route = createFileRoute('/_app/tasks/$taskId')({
 	component: RouteComponent
@@ -67,10 +68,9 @@ function RouteComponent() {
 	return (
 		<>
 			<TaskModal taskId={taskId} opened={opened} close={close} />
-			<Container size="md">
-				<Card shadow="sm" mt="md">
-					<Box pos="relative">
-						<LoadingOverlay visible={taskLoading || courseLoading} zIndex={1000} overlayProps={{ radius: 'sm', blur: 2 }} />
+			<Loading loading={taskLoading || courseLoading}>
+				<Container size="md">
+					<Card shadow="sm" mt="md">
 						<Flex direction="column" gap={15}>
 							<Flex direction="row" justify="start" align="center">
 								<Flex direction="row" gap={15} align="center">
@@ -108,9 +108,9 @@ function RouteComponent() {
 							<PropertyField name="Deadline" value={formatDate(task?.date)} />
 							<PropertyField name="Completed" value={task?.completed ? 'Yes' : 'No'} />
 						</Flex>
-					</Box>
-				</Card>
-			</Container>
+					</Card>
+				</Container>
+			</Loading>
 		</>
 	);
 }

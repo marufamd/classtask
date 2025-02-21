@@ -1,10 +1,11 @@
+import { Button, ColorInput, Flex, Modal, TextInput } from '@mantine/core';
+import { useForm, zodResolver } from '@mantine/form';
+import { notifications } from '@mantine/notifications';
 import { useNavigate } from '@tanstack/react-router';
-import { useCreateCourse, useQueryCourse, useUpdateCourse } from '../../hooks/courses';
 import { useEffect } from 'react';
 import { z } from 'zod';
-import { useForm, zodResolver } from '@mantine/form';
-import { Box, Button, ColorInput, Flex, LoadingOverlay, Modal, TextInput } from '@mantine/core';
-import { notifications } from '@mantine/notifications';
+import { useCreateCourse, useQueryCourse, useUpdateCourse } from '../../hooks/courses';
+import Loading from '../Loading';
 
 const courseFormSchema = z.object({
 	name: z.string().min(1, 'Name is required').max(255, 'Name can only be 255 characters'),
@@ -80,8 +81,7 @@ export default function CourseModal({ opened, close, courseId }: { opened: boole
 
 	return (
 		<form id="course-form" onSubmit={courseForm.onSubmit(saveHandler)}>
-			<Box pos="relative">
-				<LoadingOverlay visible={loadingQuery || loadingCreate || loadingUpdate} zIndex={1000} overlayProps={{ radius: 'sm', blur: 2 }} />
+			<Loading loading={loadingQuery || loadingCreate || loadingUpdate}>
 				<Modal size="md" opened={opened} onClose={close} title={courseId ? 'Edit Course' : 'Create Course'}>
 					<TextInput
 						withAsterisk
@@ -116,7 +116,7 @@ export default function CourseModal({ opened, close, courseId }: { opened: boole
 						</Button>
 					</Flex>
 				</Modal>
-			</Box>
+			</Loading>
 		</form>
 	);
 }

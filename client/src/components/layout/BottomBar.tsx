@@ -3,9 +3,11 @@ import type { Tab } from '../../util/constants';
 
 import classes from './BottomBar.module.css';
 import { useNavigate } from '@tanstack/react-router';
+import { useMediaQuery } from '@mantine/hooks';
 
 export default function BottomBar({ tabs, path }: { tabs: Tab[]; path: string }) {
 	const navigate = useNavigate();
+	const isPWA = useMediaQuery("(display-mode: standalone)");
 
 	return (
 		<Paper
@@ -19,7 +21,9 @@ export default function BottomBar({ tabs, path }: { tabs: Tab[]; path: string })
 				right: 0,
 				display: 'flex',
 				justifyContent: 'space-around',
-				backgroundColor: 'light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-6))'
+				backgroundColor: 'light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-6))',
+				zIndex: 999,
+				paddingBottom: isPWA ? 10 : 0
 			}}
 		>
 			{tabs.map((tab, index) => (

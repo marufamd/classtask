@@ -1,16 +1,17 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Badge, Box, Button, ColorInput, Flex, Group, LoadingOverlay, Modal, Select, SelectProps, Textarea, TextInput } from '@mantine/core';
-import { useCreateTask, useQueryTask, useUpdateTask } from '../../hooks/tasks';
-import { useEffect, useState } from 'react';
-import { useNavigate } from '@tanstack/react-router';
+import { Badge, Button, ColorInput, Flex, Group, Modal, Select, SelectProps, Textarea, TextInput } from '@mantine/core';
 import { DateTimePicker } from '@mantine/dates';
-import { z } from 'zod';
-import { taskTypes } from '../../util/constants';
 import { useForm, zodResolver } from '@mantine/form';
-import { useQueryCourses } from '../../hooks/courses';
-import { TaskType } from '../../util/interfaces';
 import { notifications } from '@mantine/notifications';
 import { IconCheck } from '@tabler/icons-react';
+import { useNavigate } from '@tanstack/react-router';
+import { useEffect, useState } from 'react';
+import { z } from 'zod';
+import { useQueryCourses } from '../../hooks/courses';
+import { useCreateTask, useQueryTask, useUpdateTask } from '../../hooks/tasks';
+import { taskTypes } from '../../util/constants';
+import { TaskType } from '../../util/interfaces';
+import Loading from '../Loading';
 
 const taskFormSchema = z.object({
 	name: z.string().min(1, 'Name is required').max(255, 'Name can only be 255 characters'),
@@ -61,12 +62,12 @@ export default function TaskModal({ opened, close, taskId }: { opened: boolean; 
 	});
 
 	const [courseId, setCourseId] = useState(taskData?.courseId);
-	const [courseColor, setCourseColor] = useState(courses?.find(c => c.id === courseId)?.color);
+	const [courseColor, setCourseColor] = useState(courses?.find((c) => c.id === courseId)?.color);
 
 	taskForm.watch('courseId', ({ value }) => {
 		console.log(value);
 		setCourseId(value);
-		const course = courses?.find(c => c.id === value);
+		const course = courses?.find((c) => c.id === value);
 		setCourseColor(course?.color);
 	});
 
@@ -120,12 +121,7 @@ export default function TaskModal({ opened, close, taskId }: { opened: boolean; 
 
 	return (
 		<form id="task-form" onSubmit={taskForm.onSubmit(saveHandler)}>
-			<Box pos="relative">
-				<LoadingOverlay
-					visible={taskLoading || courseLoading || loadingCreate || loadingUpdate}
-					zIndex={1000}
-					overlayProps={{ radius: 'sm', blur: 2 }}
-				/>
+			<Loading loading={taskLoading || courseLoading || loadingCreate || loadingUpdate}>
 				<Modal size="md" opened={opened} onClose={close} title={taskId ? 'Edit Task' : 'Create Task'}>
 					<TextInput withAsterisk label="Name" placeholder="Enter name" key={taskForm.key('name')} {...taskForm.getInputProps('name')} />
 					<Textarea
@@ -148,12 +144,7 @@ export default function TaskModal({ opened, close, taskId }: { opened: boolean; 
 					<Select
 						mt={10}
 						label="Course"
-						leftSection={
-							<Badge
-								color={courseColor ?? 'var(--classtask-color)'}
-								size="sm"
-							/>
-						}
+						leftSection={<Badge color={courseColor ?? 'var(--classtask-color)'} size="sm" />}
 						placeholder="Select course"
 						data={courses?.map((c) => ({ value: c.id, label: c.code })) ?? []}
 						renderOption={renderSelectOption}
@@ -180,7 +171,7 @@ export default function TaskModal({ opened, close, taskId }: { opened: boolean; 
 						</Button>
 					</Flex>
 				</Modal>
-			</Box>
+			</Loading>
 		</form>
 	);
 }
