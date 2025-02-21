@@ -73,7 +73,7 @@ export default function TaskDisplay() {
 						return (
 							<Checkbox
 								color="var(--classtask-color)"
-								defaultChecked={info.getValue()}
+								checked={info.getValue()}
 								onChange={() => handleChange(info.cell.row.getValue('id'), { completed: !info.getValue() })}
 							/>
 						);
@@ -104,8 +104,6 @@ export default function TaskDisplay() {
 					header: () => v,
 					cell: (info) => {
 						const course = courses?.find((c) => c.id === info.getValue());
-						console.log(courses);
-						console.log(info.getValue());
 						return (
 							<Select
 								leftSection={<Badge color={course?.color ?? 'var(--classtask-color)'} size="xs" circle />}

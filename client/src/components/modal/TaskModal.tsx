@@ -74,6 +74,12 @@ export default function TaskModal({ opened, close, taskId }: { opened: boolean; 
 	const [courseId, setCourseId] = useState(taskData?.courseId);
 	const [courseColor, setCourseColor] = useState(courses?.find((c) => c.id === courseId)?.color);
 
+	useEffect(() => {
+		if (!courseColor && !courseLoading) {
+			setCourseColor(courses?.find((c) => c.id === courseId)?.color);
+		}
+	}, [courseLoading]);
+
 	taskForm.watch('courseId', ({ value }) => {
 		console.log(value);
 		setCourseId(value);
