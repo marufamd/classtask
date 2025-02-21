@@ -74,7 +74,7 @@ function RouteComponent() {
 						<Flex direction="column" gap={15}>
 							<Flex direction="row" justify="start" align="center">
 								<Flex direction="row" gap={15} align="center">
-									<Badge color={task?.color ?? 'var(--classtask-color)'} size="lg" circle />
+									<Badge color={task?.color ?? course?.color ?? 'var(--classtask-color)'} size="lg" circle />
 									<Title>{task?.name}</Title>
 								</Flex>
 								<Flex direction="row" ml="auto" gap={10}>

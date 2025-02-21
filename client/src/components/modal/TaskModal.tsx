@@ -61,6 +61,16 @@ export default function TaskModal({ opened, close, taskId }: { opened: boolean; 
 		enhanceGetInputProps: () => ({ disabled: taskLoading || courseLoading || loadingCreate || loadingUpdate })
 	});
 
+	useEffect(() => {
+		taskForm.setValues({
+			name: taskData?.name ?? '',
+			description: taskData?.description ?? '',
+			date: taskData?.date ? new Date(taskData.date) : undefined,
+			courseId: taskData?.courseId ?? '',
+			type: (taskData?.type ?? TaskType.Other).toString()
+		});
+	}, [taskLoading]);
+
 	const [courseId, setCourseId] = useState(taskData?.courseId);
 	const [courseColor, setCourseColor] = useState(courses?.find((c) => c.id === courseId)?.color);
 
@@ -92,11 +102,11 @@ export default function TaskModal({ opened, close, taskId }: { opened: boolean; 
 				await updateTask({ taskId, ...payload }, options);
 			} else {
 				await createTask(payload, options);
+				setCourseColor(undefined);
+				taskForm.reset();
 			}
 
 			close();
-			setCourseColor(undefined);
-			taskForm.reset();
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		} catch (e: any) {
 			notifications.show({
