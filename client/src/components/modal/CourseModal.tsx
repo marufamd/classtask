@@ -65,6 +65,7 @@ export default function CourseModal({ opened, close, courseId }: { opened: boole
 			}
 
 			close();
+			courseForm.reset();
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		} catch (e: any) {
 			notifications.show({

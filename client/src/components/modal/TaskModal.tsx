@@ -85,6 +85,7 @@ export default function TaskModal({ opened, close, taskId }: { opened: boolean; 
 			}
 
 			close();
+			taskForm.reset();
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		} catch (e: any) {
 			notifications.show({
