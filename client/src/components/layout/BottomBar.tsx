@@ -48,7 +48,7 @@ export default function BottomBar({ tabs, path }: { tabs: Tab[]; path: string })
 							style={{
 								width: '1px',
 								backgroundColor: 'light-dark(var(--mantine-color-gray-2), var(--mantine-color-dark-4))',
-								height: isPWA ? '90px' : '70px',
+								height: '70px',
 								alignSelf: 'center'
 							}}
 						/>

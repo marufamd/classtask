@@ -16,7 +16,7 @@ function RouteComponent() {
 
 	return (
 		<Container size="lg">
-			<Card shadow="sm">
+			<Card shadow="sm" mt="md">
 				<Title ta="center">An error occurred.</Title>
 				<Text size="md" ta="center">
 					{message}
