@@ -69,7 +69,7 @@ export default function TaskModal({ opened, close, taskId }: { opened: boolean; 
 			courseId: taskData?.courseId ?? '',
 			type: (taskData?.type ?? TaskType.Other).toString()
 		});
-	}, [taskLoading]);
+	}, [taskData]);
 
 	const [courseId, setCourseId] = useState(taskData?.courseId);
 	const [courseColor, setCourseColor] = useState(courses?.find((c) => c.id === courseId)?.color);
