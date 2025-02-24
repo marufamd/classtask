@@ -179,9 +179,15 @@ export default function TaskDisplay() {
 			<TaskModal opened={opened} close={close} />
 			<Display name="My Tasks" addFn={open} loading={tasksLoading || coursesLoading}>
 				<Paper shadow="sm" mt={15}>
-					<ScrollArea>
+					<ScrollArea.Autosize mah="75vh">
 						<Table style={{ border: '1px solid var(--table-border-color)' }}>
-							<Table.Thead>
+							<Table.Thead
+								style={{
+									position: 'sticky',
+									backgroundColor: 'light-dark(white, var(--mantine-color-dark-7))',
+									boxShadow: '0 1px 0 var(--table-border-color), 0 -1px 0 var(--table-border-color)',
+								}}
+							>
 								{table.getHeaderGroups().map((headerGroup) => (
 									<Table.Tr key={headerGroup.id}>
 										{headerGroup.headers.map((header) => (
@@ -207,7 +213,7 @@ export default function TaskDisplay() {
 								))}
 							</Table.Tbody>
 						</Table>
-					</ScrollArea>
+					</ScrollArea.Autosize>
 				</Paper>
 			</Display>
 		</>
