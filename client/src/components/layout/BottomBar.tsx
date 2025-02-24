@@ -7,7 +7,7 @@ import { useMediaQuery } from '@mantine/hooks';
 
 export default function BottomBar({ tabs, path }: { tabs: Tab[]; path: string }) {
 	const navigate = useNavigate();
-	const isPWA = useMediaQuery("(display-mode: standalone)");
+	const isPWA = useMediaQuery('(display-mode: standalone)');
 
 	return (
 		<Paper

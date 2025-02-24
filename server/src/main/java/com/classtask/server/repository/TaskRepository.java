@@ -10,7 +10,7 @@ import com.classtask.server.entity.Task;
 
 @Repository
 public interface TaskRepository extends JpaRepository<Task, String> {
-    List<Task> findByUserId(String userId);
+    List<Task> findByUserIdOrderByDateAsc(String userId);
 
     Optional<Task> findByIdAndUserId(String id, String userId);
 }

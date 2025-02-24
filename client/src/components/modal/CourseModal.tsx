@@ -57,8 +57,6 @@ export default function CourseModal({ opened, close, courseId }: { opened: boole
 		};
 
 		try {
-			console.log(values);
-
 			if (courseId) {
 				await updateCourse(payload, options);
 			} else {

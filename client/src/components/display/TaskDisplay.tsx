@@ -5,7 +5,7 @@ import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
 import { IconCheck } from '@tabler/icons-react';
 import { Link, useNavigate } from '@tanstack/react-router';
-import { createColumnHelper, flexRender, getCoreRowModel, getSortedRowModel, useReactTable } from '@tanstack/react-table';
+import { createColumnHelper, flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table';
 import { useEffect, useMemo } from 'react';
 import { useQueryCourses } from '../../hooks/courses';
 import { useQueryTasks, useUpdateTask } from '../../hooks/tasks';
@@ -17,8 +17,11 @@ import Display from './Display';
 
 const colHelper = createColumnHelper<Task>();
 
+const fallbackData: Task[] = [];
+
 export default function TaskDisplay() {
 	const navigate = useNavigate();
+	const isMobile = useMediaQuery('(max-width: 768px)');
 
 	const { data: tasks, isLoading: tasksLoading, error: taskError } = useQueryTasks();
 	const { data: courses, isLoading: coursesLoading, error: courseError } = useQueryCourses(!tasksLoading);
@@ -104,7 +107,7 @@ export default function TaskDisplay() {
 					header: () => v,
 					cell: (info) => {
 						const course = courses?.find((c) => c.id === info.getValue());
-						return (
+						return !isMobile ? (
 							<Select
 								leftSection={<Badge color={course?.color ?? 'var(--classtask-color)'} size="xs" circle />}
 								data={courses?.map((c) => ({ value: c.id, label: c.code })) ?? []}
@@ -112,7 +115,11 @@ export default function TaskDisplay() {
 								onChange={(value) => handleChange(info.cell.row.getValue('id'), { courseId: value as string })}
 								renderOption={renderSelectOption}
 							/>
-						);
+						) : course ? (
+							<Badge style={{ fontFamily: 'sans-serif' }} color={course?.color ?? 'var(--classtask-color)'} size="xs">
+								{course?.code}
+							</Badge>
+						) : undefined;
 					}
 				});
 			}
@@ -120,12 +127,7 @@ export default function TaskDisplay() {
 			if (k === 'date') {
 				return colHelper.accessor(k, {
 					header: () => v,
-					cell: (info) => formatDate(info.getValue()),
-					sortingFn: (rowA, rowB, columnId) => {
-						const dateA = rowA.getValue(columnId) ? new Date(rowA.getValue(columnId)).getTime() : 0;
-						const dateB = rowB.getValue(columnId) ? new Date(rowB.getValue(columnId)).getTime() : 0;
-						return dateA - dateB;
-					}
+					cell: (info) => formatDate(info.getValue())
 				});
 			}
 
@@ -149,18 +151,16 @@ export default function TaskDisplay() {
 				cell: (info) => info.getValue()
 			});
 		});
-	}, [coursesLoading]);
+	}, [coursesLoading, isMobile]);
 
-	const data = useMemo(() => tasks ?? [], [tasks]);
-	const isMobile = useMediaQuery('(max-width: 768px)');
+	const data = useMemo(() => tasks, [tasks]);
 
 	const [opened, { open, close }] = useDisclosure(false);
 
 	const table = useReactTable({
-		data,
+		data: data ?? fallbackData,
 		columns,
 		getCoreRowModel: getCoreRowModel(),
-		getSortedRowModel: getSortedRowModel(),
 		state: {
 			columnVisibility: {
 				color: false,
@@ -170,13 +170,7 @@ export default function TaskDisplay() {
 				lastModifiedTime: false,
 				description: !isMobile,
 				type: !isMobile
-			},
-			sorting: [
-				{
-					id: 'date',
-					desc: false
-				}
-			]
+			}
 		}
 	});
 
