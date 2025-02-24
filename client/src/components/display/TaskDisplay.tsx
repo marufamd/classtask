@@ -116,7 +116,7 @@ export default function TaskDisplay() {
 								renderOption={renderSelectOption}
 							/>
 						) : course ? (
-							<Badge style={{ fontFamily: 'sans-serif' }} color={course?.color ?? 'var(--classtask-color)'} size="xs">
+							<Badge style={{ fontFamily: 'sans-serif' }} color={course?.color ?? 'var(--classtask-color)'} size="md">
 								{course?.code}
 							</Badge>
 						) : undefined;
