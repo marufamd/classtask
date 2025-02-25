@@ -1,4 +1,6 @@
 <img src="/client/public/logo.png" width="100">
+
+
 # ClassTask
 
 ClassTask is a task tracking web app for university students.
