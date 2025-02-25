@@ -1,4 +1,4 @@
-![](/client/public/logo.png | width=100)
+<img src="/client/public/logo.png" width="100">
 # ClassTask
 
 ClassTask is a task tracking web app for university students.
@@ -17,10 +17,10 @@ applications in Java.
 ![](/screenshots/desktop-2.png)
 
 ## Mobile
-![](/screenshots/mobile-1.png)
-![](/screenshots/mobile-2.png)
-![](/screenshots/mobile-3.png)
-![](/screenshots/mobile-4.png)
+![](/screenshots/mobile-1.PNG)
+![](/screenshots/mobile-2.PNG)
+![](/screenshots/mobile-3.PNG)
+![](/screenshots/mobile-4.PNG)
 
 # Future Develppment
 In the future I hope to keep improving upon the app, and to add features like a full size calendar.
