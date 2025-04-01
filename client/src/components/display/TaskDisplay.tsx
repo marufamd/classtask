@@ -185,7 +185,7 @@ export default function TaskDisplay() {
 								style={{
 									position: 'sticky',
 									backgroundColor: 'light-dark(white, var(--mantine-color-dark-7))',
-									boxShadow: '0 1px 0 var(--table-border-color), 0 -1px 0 var(--table-border-color)',
+									boxShadow: '0 1px 0 var(--table-border-color), 0 -1px 0 var(--table-border-color)'
 								}}
 							>
 								{table.getHeaderGroups().map((headerGroup) => (

@@ -1,4 +1,4 @@
-<img src="/client/public/logo.png" width="100">
+<img src="/client/public/favicon-192x192.png" width="100">
 
 
 # ClassTask
@@ -25,4 +25,5 @@ applications in Java.
 ![](/screenshots/mobile-4.PNG)
 
 # Future Develppment
-In the future I hope to keep improving upon the app, and to add features like a full size calendar.
+In the future I hope to keep improving upon the app, and to add more features to make the app even better,
+such as calendar view support for tasks with deadlines.

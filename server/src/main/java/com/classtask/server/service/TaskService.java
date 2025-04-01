@@ -23,7 +23,7 @@ public class TaskService {
 
     @Transactional
     public List<Task> getTasksForUser(User user) {
-        return taskRepository.findByUserIdOrderByDateAsc(user.getId());
+        return taskRepository.findByUserIdOrderByDateAscCreatedTimeAsc(user.getId());
     }
 
     public Task getTaskByIdAndUser(String taskId, User user) {

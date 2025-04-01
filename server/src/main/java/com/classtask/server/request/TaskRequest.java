@@ -10,7 +10,7 @@ public class TaskRequest {
     private String name;
     private String description;
     private String color;
-    private int type;
+    private Integer type;
     private String courseId;
     private boolean completed;
 }
