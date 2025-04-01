@@ -40,7 +40,19 @@ export function useUpdateTask() {
 				body: JSON.stringify(payload)
 			});
 		},
-		onSuccess: () => {
+		onMutate: async ({ taskId, ...payload }) => {
+			await client.cancelQueries({ queryKey: ['tasks'] });
+
+			const previousTasks = client.getQueryData<Task[]>(['tasks']);
+
+			client.setQueryData<Task[]>(['tasks'], (old) => old?.map((task) => (task.id === taskId ? { ...task, ...payload } : task)));
+
+			return { previousTasks };
+		},
+		onError: (_err, _task, context) => {
+			client.setQueryData(['todos'], (context as { previousTasks: Task[] }).previousTasks);
+		},
+		onSettled: () => {
 			void client.invalidateQueries({ queryKey: ['tasks'] });
 		}
 	});
