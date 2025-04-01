@@ -59,7 +59,7 @@ public class TaskService {
         Optional.ofNullable(updatedTask.getColor()).ifPresent(existingTask::setColor);
         Optional.ofNullable(updatedTask.getType()).ifPresent(existingTask::setType);
         Optional.ofNullable(updatedTask.getCourseId()).ifPresent(existingTask::setCourseId);
-        Optional.ofNullable(updatedTask.isCompleted()).ifPresent(existingTask::setCompleted);
+        Optional.ofNullable(updatedTask.getCompleted()).ifPresent(existingTask::setCompleted);
 
         existingTask.setLastModifiedTime(new Timestamp(System.currentTimeMillis()));
 

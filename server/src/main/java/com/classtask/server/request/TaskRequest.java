@@ -12,5 +12,5 @@ public class TaskRequest {
     private String color;
     private Integer type;
     private String courseId;
-    private boolean completed;
+    private Boolean completed;
 }
