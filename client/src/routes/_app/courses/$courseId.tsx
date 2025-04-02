@@ -37,8 +37,8 @@ function RouteComponent() {
 	const handleDelete = async () => {
 		try {
 			await deleteCourse(null, {
-				onSuccess: () => {
-					navigate({ to: '/tasks' });
+				onSettled: () => {
+					navigate({ to: '/courses' });
 				}
 			});
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any

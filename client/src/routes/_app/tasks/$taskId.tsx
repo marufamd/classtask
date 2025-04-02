@@ -51,7 +51,7 @@ function RouteComponent() {
 	const handleDelete = async () => {
 		try {
 			await deleteTask(null, {
-				onSuccess: () => {
+				onSettled: () => {
 					navigate({ to: '/tasks' });
 				}
 			});
