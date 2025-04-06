@@ -179,7 +179,7 @@ export default function TaskDisplay() {
 			<TaskModal opened={opened} close={close} />
 			<Display name="My Tasks" addFn={open} loading={tasksLoading || coursesLoading}>
 				<Paper shadow="sm" mt={15}>
-					<ScrollArea.Autosize mah="calc(100vh - 220px)">
+					<ScrollArea.Autosize mah={`calc(100vh - ${isMobile ? '250' : '220'}px)`}>
 						<Table style={{ border: '1px solid var(--table-border-color)' }}>
 							<Table.Thead
 								style={{
