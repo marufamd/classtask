@@ -65,16 +65,16 @@ jobs:
             EOF
             
             # Stop and remove existing containers
-            docker-compose down
+            docker compose down
             
             # Remove old images to force rebuild
-            docker-compose build --no-cache
+            docker compose build --no-cache
             
             # Start services
-            docker-compose up -d
+            docker compose up -d
             
             # Show logs
-            docker-compose logs --tail=50
+            docker compose logs --tail=50
             
             # Clean up dangling images
             docker image prune -f
@@ -91,7 +91,7 @@ jobs:
             
             # Check if containers are running
             echo "=== Container Status ==="
-            docker-compose ps
+            docker compose ps
             
             # Check server health (wait for startup)
             echo "=== Waiting for server to start ==="
@@ -103,5 +103,5 @@ jobs:
             else
               echo "⚠️ Server might still be starting or health check endpoint not available"
               echo "=== Recent Logs ==="
-              docker-compose logs --tail=30 server
+              docker compose logs --tail=30 server
             fi

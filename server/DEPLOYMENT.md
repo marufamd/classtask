@@ -50,7 +50,7 @@ Add the following secrets:
    sudo usermod -aG docker $USER
    
    # Install Docker Compose
-   sudo apt install docker-compose-plugin
+   sudo apt install docker compose-plugin
    
    # Verify installation
    docker --version
@@ -105,22 +105,22 @@ After deployment, you can monitor your application:
 ```bash
 # Check container status
 cd ~/classtask/server
-docker-compose ps
+docker compose ps
 
 # View logs
-docker-compose logs -f server
+docker compose logs -f server
 
 # View database logs
-docker-compose logs -f postgres
+docker compose logs -f postgres
 
 # Restart services
-docker-compose restart
+docker compose restart
 
 # Stop services
-docker-compose down
+docker compose down
 
 # Start services
-docker-compose up -d
+docker compose up -d
 ```
 
 ## Troubleshooting
@@ -131,14 +131,14 @@ docker-compose up -d
 - Check SSH_HOST and SSH_USERNAME are correct
 
 ### Containers fail to start
-- Check logs: `docker-compose logs`
+- Check logs: `docker compose logs`
 - Verify all required secrets are set in GitHub
 - Ensure .env file is created correctly on the server
 
 ### Database connection errors
-- Verify PostgreSQL container is running: `docker-compose ps`
+- Verify PostgreSQL container is running: `docker compose ps`
 - Check database credentials in GitHub secrets match
-- Review server logs: `docker-compose logs server`
+- Review server logs: `docker compose logs server`
 
 ## Security Notes
 
