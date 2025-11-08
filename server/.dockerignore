@@ -1,0 +1,39 @@
+# Ignore target directory to avoid copying build artifacts
+target/
+!target/server-0.0.1-SNAPSHOT.jar
+
+# Ignore IDE files
+.idea/
+.vscode/
+*.iml
+*.iws
+*.ipr
+
+# Ignore Git files
+.git/
+.gitignore
+.gitattributes
+
+# Ignore Docker files
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# Ignore documentation
+*.md
+HELP.md
+
+# Ignore local environment files
+.env
+.env.local
+*.properties.example
+
+# Ignore OS files
+.DS_Store
+Thumbs.db
+
+# Ignore test files
+src/test/
+
+# Ignore Maven wrapper jar (will be copied separately if needed)
+.mvn/wrapper/maven-wrapper.jar

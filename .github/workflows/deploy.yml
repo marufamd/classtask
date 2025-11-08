@@ -1,0 +1,107 @@
+name: Deploy to Ubuntu Server
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'server/**'
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    name: Deploy Server
+    runs-on: ubuntu-latest
+    environment: Production
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Deploy to Ubuntu Server
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SSH_PORT || 22 }}
+          script: |
+            # Navigate to deployment directory
+            cd ${{ secrets.DEPLOY_PATH || '~/classtask' }}
+            
+            # Pull latest changes
+            git pull origin main
+            
+            # Navigate to server directory
+            cd server
+            
+            # Create .env file from GitHub secrets
+            cat > .env << EOF
+            # Database configuration
+            POSTGRES_DB=${{ secrets.POSTGRES_DB }}
+            POSTGRES_USER=${{ secrets.POSTGRES_USER }}
+            POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}
+            
+            # Port
+            PORT=${{ secrets.PORT }}
+            
+            # JWT Secret
+            CLASSTASK_JWT_SECRET=${{ secrets.CLASSTASK_JWT_SECRET }}
+            
+            # Discord Webhook URL
+            CLASSTASK_WEBHOOK_URL=${{ secrets.CLASSTASK_WEBHOOK_URL }}
+            
+            # Email configuration
+            CLASSTASK_EMAIL_ADDRESS=${{ secrets.CLASSTASK_EMAIL_ADDRESS }}
+            
+            # Frontend application URL
+            CLASSTASK_APP_URL=${{ secrets.CLASSTASK_APP_URL }}
+            
+            # Application icon URL
+            CLASSTASK_APP_ICON=${{ secrets.CLASSTASK_APP_ICON }}
+            
+            # Resend API Key
+            RESEND_API_KEY=${{ secrets.RESEND_API_KEY }}
+            EOF
+            
+            # Stop and remove existing containers
+            docker-compose down
+            
+            # Remove old images to force rebuild
+            docker-compose build --no-cache
+            
+            # Start services
+            docker-compose up -d
+            
+            # Show logs
+            docker-compose logs --tail=50
+            
+            # Clean up dangling images
+            docker image prune -f
+
+      - name: Verify Deployment
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SSH_PORT || 22 }}
+          script: |
+            cd ${{ secrets.DEPLOY_PATH || '~/classtask' }}/server
+            
+            # Check if containers are running
+            echo "=== Container Status ==="
+            docker-compose ps
+            
+            # Check server health (wait for startup)
+            echo "=== Waiting for server to start ==="
+            sleep 10
+            
+            # Test server health
+            if curl -f http://localhost:8080/actuator/health 2>/dev/null || curl -f http://localhost:8080 2>/dev/null; then
+              echo "✅ Server is running!"
+            else
+              echo "⚠️ Server might still be starting or health check endpoint not available"
+              echo "=== Recent Logs ==="
+              docker-compose logs --tail=30 server
+            fi

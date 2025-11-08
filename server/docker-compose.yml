@@ -1,0 +1,59 @@
+version: '3.8'
+
+# Explicitly reference the .env file
+# Docker Compose automatically loads .env from the same directory,
+# but you can override with: docker-compose --env-file .env.prod up
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: classtask-postgres
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./src/main/resources/schema.sql:/docker-entrypoint-initdb.d/schema.sql
+    networks:
+      - classtask-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: classtask-server
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/${POSTGRES_DB}
+      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER}
+      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD}
+      # Override these with your actual values or use .env file
+      CLASSTASK_JWT_SECRET: ${CLASSTASK_JWT_SECRET}
+      CLASSTASK_WEBHOOK_URL: ${CLASSTASK_WEBHOOK_URL}
+      CLASSTASK_EMAIL_ADDRESS: ${CLASSTASK_EMAIL_ADDRESS}
+      CLASSTASK_APP_URL: ${CLASSTASK_APP_URL}
+      CLASSTASK_APP_ICON: ${CLASSTASK_APP_ICON}
+      RESEND_API_KEY: ${RESEND_API_KEY}
+    ports:
+      - 3002:3002
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - classtask-network
+    restart: unless-stopped
+
+networks:
+  classtask-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+    driver: local
