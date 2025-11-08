@@ -66,9 +66,6 @@ jobs:
           rsync -avz --delete \
             --exclude 'target' \
             --exclude '.git' \
-            --exclude '.mvn' \
-            --exclude 'node_modules' \
-            --exclude '.env.local' \
             -e "ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no" \
             ./server/ $SSH_USERNAME@$SSH_HOST:$DEPLOY_PATH/server/
 
