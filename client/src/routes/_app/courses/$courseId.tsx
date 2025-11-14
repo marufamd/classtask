@@ -55,7 +55,7 @@ function RouteComponent() {
 		<>
 			<CourseModal opened={opened} close={close} courseId={courseId} />
 			<Container size="md">
-				<Card shadow="sm" mt="md">
+				<Card shadow="sm" mt="md" withBorder padding="lg" radius="md">
 					<Flex direction="column" gap={15}>
 						<Flex direction="row" justify="start" align="center">
 							<Flex direction="row" gap={15} align="center">

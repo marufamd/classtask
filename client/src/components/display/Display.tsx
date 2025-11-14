@@ -15,7 +15,7 @@ export default function Display({
 }) {
 	return (
 		<Loading loading={loading}>
-			<Card shadow="sm" mt="md">
+			<Card shadow="sm" mt="md" padding="lg" radius="md" withBorder>
 				<Flex direction="row" justify="start" align="center">
 					<Title>{name}</Title>
 					<ActionIcon onClick={addFn} ml="auto" color="var(--classtask-color)" size="lg">

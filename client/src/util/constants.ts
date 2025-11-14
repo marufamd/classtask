@@ -1,6 +1,8 @@
 import { IconBook, IconCalendar, IconListCheck, IconUser } from '@tabler/icons-react';
 import { Task, TaskType } from './interfaces';
 
+export const CLASSTASK_COLOR = '#5057ff';
+
 export const tabs: Tab[] = [
 	{ label: 'Tasks', icon: IconListCheck, href: '/tasks' },
 	{ label: 'Courses', icon: IconBook, href: '/courses' },

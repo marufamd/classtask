@@ -32,7 +32,7 @@ export default function CourseDisplay() {
 					{courses?.map((course) => {
 						return (
 							<Link to="/courses/$courseId" params={{ courseId: course.id }} style={{ textDecoration: 'none' }}>
-								<Card className={classes.courseCard}>
+								<Card className={classes.courseCard} withBorder radius="md">
 									<Flex direction="row" gap={15} align="center">
 										<Badge color={course.color} size="lg" circle />
 										<Flex direction="column">

@@ -70,7 +70,7 @@ function RouteComponent() {
 			<TaskModal taskId={taskId} opened={opened} close={close} />
 			<Loading loading={taskLoading || courseLoading}>
 				<Container size="md">
-					<Card shadow="sm" mt="md">
+					<Card shadow="sm" mt="md" withBorder padding="lg" radius="md">
 						<Flex direction="column" gap={15}>
 							<Flex direction="row" justify="start" align="center">
 								<Flex direction="row" gap={15} align="center">
