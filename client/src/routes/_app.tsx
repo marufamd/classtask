@@ -5,8 +5,10 @@ import NotFound from '../components/display/NotFound';
 
 export const Route = createFileRoute('/_app')({
 	component: RouteComponent,
-	beforeLoad: () => {
+	beforeLoad: ({ context }) => {
 		if (useAuthStore.getState().user === null) {
+			context.queryClient.invalidateQueries();
+
 			throw redirect({
 				to: '/login'
 			});
