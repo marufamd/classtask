@@ -24,7 +24,9 @@ export default function BottomBar({ tabs, path }: { tabs: Tab[]; path: string })
 				backgroundColor: 'light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-6))',
 				zIndex: 999,
 				paddingBottom: isPWA ? '20px' : 0,
-				borderRadius: '0px'
+				borderRadius: 0,
+				borderBottomLeftRadius: '0px',
+				borderBottomRightRadius: '0px'
 			}}
 		>
 			{tabs.map((tab, index) => (
