@@ -17,7 +17,7 @@ export default defineConfig({
 				start_url: '/',
 				display: 'standalone',
 				background_color: '#5057FF',
-				theme_color: '#5057ff;',
+				theme_color: '#5057FF',
 				icons: [
 					{
 						src: '/maskable-icon-512x512.png',
