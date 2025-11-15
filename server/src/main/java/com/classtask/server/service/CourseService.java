@@ -61,9 +61,10 @@ public class CourseService {
         return courseRepository.save(existingCourse);
     }
 
-    public void deleteCourse(String courseId, User user) {
+    public Course deleteCourse(String courseId, User user) {
         Course course = getCourseByIdAndUser(courseId, user);
         courseRepository.delete(course);
+        return course;
     }
 }
 

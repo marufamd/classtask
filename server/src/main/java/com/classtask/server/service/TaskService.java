@@ -66,8 +66,9 @@ public class TaskService {
         return taskRepository.save(existingTask);
     }
 
-    public void deleteTask(String taskId, User user) {
+    public Task deleteTask(String taskId, User user) {
         Task task = getTaskByIdAndUser(taskId, user);
         taskRepository.delete(task);
+        return task;
     }
 }

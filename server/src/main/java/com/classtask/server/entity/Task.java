@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -36,6 +38,10 @@ public class Task implements Serializable {
 
     @Column(name = "course_id")
     private String courseId;
+
+    @ManyToOne
+    @JoinColumn(name = "course_id", referencedColumnName = "id", insertable = false, updatable = false)
+    private Course course;
 
     @Column(name = "user_id")
     private String userId;
