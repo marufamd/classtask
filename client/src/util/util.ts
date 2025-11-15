@@ -49,7 +49,7 @@ export async function fetchAPI<T>(path: string, init?: RequestInit, retry: boole
 
 	const res = await request<T>(path, options);
 
-	const data = await res.json();
+	const data = await res.json().catch(() => null);
 
 	if (res.status === 401 && !retry) {
 		if ((data as APIResponse).message === 'Invalid or expired token') {
